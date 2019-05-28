@@ -2,7 +2,7 @@
 div.wrapper {
     display: flex;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 #sidebar {
@@ -80,10 +80,13 @@ p.display-menu {
 }
 
 p.notifications {
+    margin: 0;
     position: absolute;
+    padding: 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
     color: white;
     font-size: 18px;
     letter-spacing: 1px;
@@ -110,7 +113,7 @@ button.btn.dashboard {
     border-color: #343A40;
     box-shadow: 0 0 0 0.2rem #343a4033;
 }
-#displayConfigurationPage:hover, #backToLogin:hover {
+#displayConfigurationPage:hover, #backToLogin:hover, #dismiss:hover {
     background-color: white;
 }
 
@@ -129,21 +132,21 @@ button.btn.dashboard {
     right: 0;
     background-color: #ddd;
     width: calc(100% - 250px);
-    height: calc(100vh - 100px);
+    min-height: calc(100vh - 100px);
+    height: auto;
 }
 
 #accordionWindow {
     position: absolute;
     top: 10%;
     left: 10%;
-    width: 30%;
-    height: 30%;
-    z-index: 3;
+    width: 300px;
     cursor: pointer;
-}
+} 
 
 #accordionWindow button.btn-link {
     text-decoration: none;
     color: black;
     text-transform: uppercase;
 }
+

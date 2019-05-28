@@ -1,6 +1,8 @@
 import React from 'react';
 import './Dashboard.css';
 import { withRouter } from 'react-router-dom';
+import Draggable from 'react-draggable';
+import Configuration from './Configuration';
 
 
 class Dashboard extends React.Component {
@@ -10,18 +12,23 @@ class Dashboard extends React.Component {
             menuText: "",
             submenuText: "",
             notifications: ['Error', 'Warning', 'Info'],
-            colorOfNotifications: ['red', 'orange', 'blue'],
             date: new Date().toLocaleString(),
             displayNotification: '',
-            selectedColorOfNotifications: '',
+            displayConfiguration: false,
         };
-        let targetDispalyText = '';
     }
 
     handleClickBackToLogin = (e) => {
         e.preventDefault();
         let path = `/`;
         this.props.history.push(path);
+    };
+
+    handleClickDisplayConfigurationPage = (e) => {
+        e.preventDefault();
+        this.setState({
+            displayConfiguration: true,
+        });
     };
 
     componentDidMount = () => {
@@ -33,7 +40,6 @@ class Dashboard extends React.Component {
             this.setState({
                 displayNotification: displayedNotification,
                 date: new Date().toLocaleString(),
-                selectedColorOfNotifications: this.state.colorOfNotifications[randomIndexOfNotification],
             });
             this.componentDidMount();
         }, randomTime);
@@ -52,6 +58,12 @@ class Dashboard extends React.Component {
         });
     };
 
+    handleChangeNoti = (selectValue) => {
+        this.setState({
+            notifications: selectValue,
+        })
+    }
+
     render() {
 
         const handleClickDispalyText = (e) => {
@@ -68,27 +80,7 @@ class Dashboard extends React.Component {
             })
         };
 
-        let offset = [0, 0];
-        let divOverlay = document.getElementById("accordionWindow");
-        let isDown = false;
-        divOverlay.addEventListener('mousedown', function (e) {
-            isDown = true;
-            offset = [
-                divOverlay.offsetLeft - e.clientX,
-                divOverlay.offsetTop - e.clientY
-            ];
-        }, true);
-        document.addEventListener('mouseup', function () {
-            isDown = false;
-        }, true);
-
-        document.addEventListener('mousemove', function (e) {
-            e.preventDefault();
-            if (isDown) {
-                divOverlay.style.left = (e.clientX + offset[0]) + 'px';
-                divOverlay.style.top = (e.clientY + offset[1]) + 'px';
-            }
-        }, true);
+        const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
 
         return (
             <div className="wrapper" >
@@ -195,7 +187,7 @@ class Dashboard extends React.Component {
                 </nav>
 
                 <div id="header">
-                    <p className='notifications' style={{ color: this.state.selectedColorOfNotifications }}>{this.state.displayNotification}</p>
+                    <p className='notifications' style={{ color: this.state.displayNotification.includes('Error') ? "red" : this.state.displayNotification.includes('Warning') ? "orange" : "cadetblue" }}>{this.state.displayNotification}</p>
                     {this.state.displayNotification ? <button
                         id='dismiss'
                         className="btn btn-primary dashboard"
@@ -218,23 +210,26 @@ class Dashboard extends React.Component {
 
                 <div id="main-content">
                     <p className='display-menu'>{`${this.state.menuText} ${this.state.submenuText === this.state.menuText ? '' : '- ' + this.state.submenuText}`}</p>
-
-                    <div className="accordion" id="accordionWindow">
-                        <div className="card">
-                            <div className="card-header" id="heading">
-                                <h5 className="mb-0">
-                                    <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
-                                        Collapsible window
+                    <Draggable bounds="parent" {...dragHandlers}>
+                        <div className="accordion"
+                            id="accordionWindow">
+                            <div className="card">
+                                <div className="card-header" id="heading">
+                                    <h5 className="mb-0">
+                                        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapse">
+                                            Collapsible window
                                     </button>
-                                </h5>
-                            </div>
-                            <div id="collapse" className="collapse show" aria-labelledby="heading" data-parent="#accordionWindow">
-                                <div className="card-body">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque rem modi ea mollitia numquam.
+                                    </h5>
+                                </div>
+                                <div id="collapse" className="collapse show" aria-labelledby="heading" data-parent="#accordionWindow">
+                                    <div className="card-body">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque rem modi ea mollitia numquam.
+                                </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Draggable>
+                    {this.state.displayConfiguration ? < Configuration handleChangeNoti={this.handleChangeNoti} /> : null}
                 </div>
             </div >
         );

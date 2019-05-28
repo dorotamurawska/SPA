@@ -1,0 +1,50 @@
+#wrap-configuration {
+    width: 50%;
+    position: absolute;
+    bottom:  0;
+    right: 0;
+    padding: 10px;
+    height: 100%;
+}
+
+#select-lang, #selectNoti, #selectedLang, #inputEmail {
+    width: 200px;
+    position: absolute;
+    padding: 3px 5px;
+    bottom: 60%;
+    right: 40%;
+}
+
+#saveLang.btn.btn-primary.configuration, #saveNoti.btn.btn-primary.configuration,
+#saveEmail.btn.btn-primary.configuration {
+    position: absolute;
+    background-color: #343A40;
+    border-color: #343A40;
+    box-shadow: 0 0 0 0.2rem #343a4033;
+    padding: 3px 5px;
+    bottom: 60%;
+    right: 40%;
+    width: 60px;
+    font-size: 14px;
+    outline: none;
+    }
+
+    #saveNoti.btn.btn-primary.configuration {
+    bottom: 30%;
+    }
+
+    #saveEmail.btn.btn-primary.configuration {
+        bottom: 12%;
+    }
+
+    #selectedLang {
+        bottom: 50%;
+    }
+
+    #selectNoti {
+        bottom: 30%;
+    }
+
+    #inputEmail {
+        bottom: 10%;
+    }
